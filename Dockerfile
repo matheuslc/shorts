@@ -1,13 +1,15 @@
 FROM node:latest
 
-VOLUME "/usr/src/url-shortener"
+VOLUME "/usr/src/shorts"
 
-ADD entrypoint.sh /entrypoint.sh
+RUN cd /usr/src/shorts
 
 RUN npm install -g yarn
-RUN chmod +x /entrypoint.sh
 
-EXPOSE 80
+RUN yarn
+
+EXPOSE 9005
+
 WORKDIR "/usr/src/url-shortener"
 
-CMD ["/entrypoint.sh", "npm start"]
+CMD ["npm start"]
