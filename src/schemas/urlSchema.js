@@ -18,12 +18,10 @@ const Url = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  requests: [
-    {
-      origin: String,
-      date: Date
-    }
-  ],
+  requests: [{
+    origin: String,
+    date: Date
+  }],
   user: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -32,4 +30,4 @@ const Url = new mongoose.Schema({
 
 Url.index({shortUrl: 1});
 
-module.exports = mongoose.model('Url', Url);
+export default mongoose.model('Url', Url);
