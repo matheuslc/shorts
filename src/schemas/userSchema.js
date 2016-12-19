@@ -19,4 +19,4 @@ const User = new mongoose.Schema({
 
 User.index({user: 1});
 
-module.exports = mongoose.model('User', User);
+export default mongoose.model('User', User);
