@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
-const Schema   = mongoose.Schema;
+'use strict';
 
-let User = new Schema({
+import mongoose from 'mongoose';
+
+const User = new mongoose.Schema({
   name: {
     type: String,
     required: true

@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
-const Schema   = mongoose.Schema;
+'use strict';
 
-let Url = new Schema({
+import mongoose from 'mongoose';
+
+const Url = new mongoose.Schema({
   url: String,
   shortUrl: {
     type: String,
