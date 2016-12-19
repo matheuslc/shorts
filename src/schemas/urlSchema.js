@@ -1,5 +1,3 @@
-'use strict';
-
 import mongoose from 'mongoose';
 
 const Url = new mongoose.Schema({
@@ -19,7 +17,7 @@ const Url = new mongoose.Schema({
   created: {
     type: Date,
     default: Date.now
-  }
+  },
   requests: [
     {
       origin: String,
@@ -27,7 +25,7 @@ const Url = new mongoose.Schema({
     }
   ],
   user: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }]
 });

@@ -1,21 +1,20 @@
 'use strict';
 
-import express from 'express';
-import bodyParser from 'body-parser';
+import Express from 'express';
 import mongoose from 'mongoose';
 import config from './resource/config/enviroment';
 
-let app = new express();
+const app = new Express();
 
 // Connect to DB
-const connection = mongoose.connect(
+mongoose.connect(
   `${config.database.mongo.host}/${config.database.mongo.db}`,
   config.database.mongo.options
 );
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

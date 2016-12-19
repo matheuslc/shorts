@@ -1,5 +1,3 @@
-'use strict';
-
 import mongoose from 'mongoose';
 
 const User = new mongoose.Schema({
@@ -19,6 +17,6 @@ const User = new mongoose.Schema({
   }
 });
 
-Url.index({user: 1});
+User.index({user: 1});
 
 module.exports = mongoose.model('User', User);
