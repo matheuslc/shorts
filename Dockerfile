@@ -1,15 +1,19 @@
 FROM node:latest
 
-VOLUME "/usr/src/shorts"
+VOLUME /usr/src/shorts
+
+ADD . /usr/src/shorts
 
 RUN cd /usr/src/shorts
+
+RUN chmod +x /usr/src/shorts/bin/www
 
 RUN npm install -g yarn
 
 RUN yarn
 
-EXPOSE 9005
+EXPOSE 3000
 
-WORKDIR "/usr/src/url-shortener"
+WORKDIR /usr/src/shorts
 
-CMD ["npm start"]
+CMD yarn run start
