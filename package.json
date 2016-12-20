@@ -16,7 +16,8 @@
     "esnext": true,
     "space": 2,
     "rules": {
-      "unicorn/filename-case": ["error", "camelCase"]
+      "unicorn/filename-case": ["error", "camelCase"],
+      "new-cap": 0
     }
   },
   "author": "Matheus Carmo <mematheuslc@gmail.com>",

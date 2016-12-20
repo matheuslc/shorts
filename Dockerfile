@@ -1,5 +1,7 @@
 FROM node:latest
 
+MAINTAINER Matheus Lucca do Carmo <mematheuslc@gmail.com>
+
 VOLUME /usr/src/shorts
 
 ADD . /usr/src/shorts

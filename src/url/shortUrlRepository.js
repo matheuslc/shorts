@@ -14,7 +14,7 @@ export default class ShortUrlRepository {
     }, {
       $inc: {'hits.count': 1},
       $set: {'hits.lastHit': new Date()},
-      $push: {'requests': referer}
+      $push: {requests: referer}
     });
   }
 
@@ -27,7 +27,7 @@ export default class ShortUrlRepository {
     const randomUrl = new Shortener(config.dictionary, config.shortUrlSize).getRandomUrl();
 
     return new UrlSchema({
-      url: url,
+      url,
       shortUrl: randomUrl,
       hits: {
         count: 0

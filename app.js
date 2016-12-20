@@ -1,13 +1,13 @@
 'use strict';
 
-import Express from 'express';
+import express from 'express';
 import mongoose from 'mongoose';
+import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import config from './resource/config/enviroment';
 import urlsRoutes from './src/routes/url';
-import morgan from 'morgan';
 
-const app = new Express();
+const app = new express();
 
 // Connect to DB
 mongoose.connect(`${config.database}`);

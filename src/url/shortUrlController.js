@@ -12,7 +12,7 @@ export default class ShortUrlController {
    * @param res {Object} Response Object
    */
   createShortUrl(req, res) {
-    if (!req.params.hasOwnProperty('url')) {
+    if (!req.params.url) {
       throw new Error('URL is not defined. You must pass a URL.');
     }
 
