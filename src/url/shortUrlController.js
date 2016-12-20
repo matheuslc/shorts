@@ -1,5 +1,3 @@
-import config from '../../resource/config/enviroment';
-
 /**
  * Class ShortUrlController
  */
@@ -14,7 +12,11 @@ export default class ShortUrlController {
    * @param res {Object} Response Object
    */
   createShortUrl(req, res) {
-    const ShortUrl = this.ShortUrlRepository.createShortUrl(req.query.url);
+    if (!req.params.hasOwnProperty('url')) {
+      throw new Error('URL is not defined. You must pass a URL.');
+    }
+
+    const ShortUrl = this.ShortUrlRepository.createShortUrl(req.params.url);
 
     this.ShortUrlRepository.persist(ShortUrl).then(response => {
       return res.json(this.ShortUrlRepository.dataTransferObject(response));
@@ -35,8 +37,10 @@ export default class ShortUrlController {
    * @param res {Object} Response Object
    */
   getShortUrl(req, res) {
-    this.ShortUrlRepository.getShortUrlById(req.params.shortUrlId).then(response => {
-      return res.redirect(301, `${config.baseShortUrl}/${response.shortUrl}`);
+    const referer = req.get('Referer');
+
+    this.ShortUrlRepository.getShortUrlById(req.params.shortUrlId, referer).then(response => {
+      return res.redirect(301, `${response.url}`);
     }).catch(err => {
       res.json(err);
     });

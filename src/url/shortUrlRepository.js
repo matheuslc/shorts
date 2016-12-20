@@ -6,24 +6,15 @@ export default class ShortUrlRepository {
   /**
    * @name getShortUrlById
    * @param shortUrlId {int}
-   * @return {Object} Return requested Short URL
-   */
-  getShortUrlById(shortUrlId) {
-    return this.getShortUrlByIdAndIncrement(shortUrlId);
-  }
-
-  /**
-   * @name getShortUrlByIdAndIncrement
-   * @param shortUrlId {int}
    * @return {Promise}
    */
-  getShortUrlByIdAndIncrement(shortUrlId) {
+  getShortUrlById(shortUrlId, referer) {
     return UrlSchema.findOneAndUpdate({
-      id: shortUrlId
+      shortUrl: shortUrlId
     }, {
-      $inc: {
-        hits: 1
-      }
+      $inc: {'hits.count': 1},
+      $set: {'hits.lastHit': new Date()},
+      $push: {'requests': referer}
     });
   }
 
@@ -36,7 +27,7 @@ export default class ShortUrlRepository {
     const randomUrl = new Shortener(config.dictionary, config.shortUrlSize).getRandomUrl();
 
     return new UrlSchema({
-      url,
+      url: url,
       shortUrl: randomUrl,
       hits: {
         count: 0
@@ -72,7 +63,7 @@ export default class ShortUrlRepository {
     return {
       id: data.id,
       url: data.url,
-      shortUrl: `${config.baseShortUrl}/${data.shortUrl}`,
+      shortUrl: `${data.shortUrl}`,
       hits: data.hits
     };
   }
