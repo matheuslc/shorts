@@ -2,15 +2,23 @@
 
 import Express from 'express';
 import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 import config from './resource/config/enviroment';
+import urlsRoutes from './src/routes/url';
 
 const app = new Express();
 
 // Connect to DB
-mongoose.connect(
-  `${config.database.mongo.host}/${config.database.mongo.db}`,
-  config.database.mongo.options
-);
+mongoose.connect(`${config.database}`);
+
+// Use ES6 promises
+mongoose.Promise = global.Promise;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+// Routes register
+app.use('/', urlsRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
