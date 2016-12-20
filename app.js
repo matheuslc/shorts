@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import config from './resource/config/enviroment';
 import urlsRoutes from './src/routes/url';
+import morgan from 'morgan';
 
 const app = new Express();
 
@@ -14,8 +15,10 @@ mongoose.connect(`${config.database}`);
 // Use ES6 promises
 mongoose.Promise = global.Promise;
 
+// Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(morgan('combined'));
 
 // Routes register
 app.use('/', urlsRoutes);
