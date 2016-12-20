@@ -4,9 +4,8 @@ import config from '../../resource/config/enviroment';
  * Class ShortUrlController
  */
 export default class ShortUrlController {
-  constructor(ShortUrlRepository, UserRepository) {
+  constructor(ShortUrlRepository) {
     this.ShortUrlRepository = ShortUrlRepository;
-    this.UserRepository = UserRepository;
   }
 
   /**
@@ -15,25 +14,13 @@ export default class ShortUrlController {
    * @param res {Object} Response Object
    */
   createShortUrl(req, res) {
-    this.UserRepository.getUserById(req.params.userId).then(User => {
-      this.checkIfUrlAlreadyExistsAndPersist(req, res, User);
-    });
-  }
-
-  /**
-   * @name checkIfUrlAlreadyExistsAndPersist
-   * @param req {Object} Request Object
-   * @param res {Object} Response Object
-   * @param User {Object} User Schema
-   */
-  checkIfUrlAlreadyExistsAndPersist(req, res, User) {
-    const ShortUrl = this.ShortUrlRepository.createShortUrl(User._id, req.query.url);
+    const ShortUrl = this.ShortUrlRepository.createShortUrl(req.query.url);
 
     this.ShortUrlRepository.persist(ShortUrl).then(response => {
       return res.json(this.ShortUrlRepository.dataTransferObject(response));
     }).catch(err => {
       if (err.code === 11000) {
-        this.checkIfUrlAlreadyExistsAndPersist(req, res, User);
+        this.createShortUrl(req, res);
 
         return false;
       }

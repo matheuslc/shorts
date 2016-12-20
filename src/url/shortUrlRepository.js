@@ -29,16 +29,14 @@ export default class ShortUrlRepository {
 
   /**
    * @name createShortUrl
-   * @param userId {String}
    * @param url {String}
    * @return {Promise} Created new Short URL and return a ShortURL schema
    */
-  createShortUrl(userId, url) {
+  createShortUrl(url) {
     const randomUrl = new Shortener(config.dictionary, config.shortUrlSize).getRandomUrl();
 
     return new UrlSchema({
       url,
-      user: userId,
       shortUrl: randomUrl,
       hits: {
         count: 0

@@ -21,10 +21,6 @@ const Url = new mongoose.Schema({
   requests: [{
     origin: String,
     date: Date
-  }],
-  user: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
   }]
 });
 
