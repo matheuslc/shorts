@@ -1,6 +1,6 @@
 import chai from 'chai';
-import config from './fixtures/config.json';
-import Shortener from '../src/url/shortener';
+import config from '../fixtures/config.json';
+import Shortener from '../../src/url/shortener';
 
 const assert = chai.assert;
 const should = chai.should;

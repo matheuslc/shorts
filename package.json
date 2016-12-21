@@ -1,6 +1,6 @@
 {
   "name": "shorts",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Scalable URL Shortener",
   "main": "bin/www",
   "scripts": {
@@ -13,6 +13,11 @@
   "repository": {
     "url": "git@github.com:matheuslc/shorts.git",
     "type": "git"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ]
   },
   "xo": {
     "esnext": true,
