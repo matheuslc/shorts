@@ -1,11 +1,12 @@
 {
   "name": "shorts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Scalable URL Shortener",
   "main": "bin/www",
   "scripts": {
+    "prepare": "cp resource/config/enviroment-sample.json resource/config/enviroment.json",
     "start": "nodemon --exec babel-node bin/www",
-    "lint": "xo",
+    "lint": "xo --esnext src/**/*.js",
     "test": "nyc mocha ./test/**/*.spec.js --compilers js:babel-core/register",
     "cover": "npm test && nyc report --reporter=text-lcov | coveralls"
   },
