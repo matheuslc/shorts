@@ -1,6 +1,7 @@
 import chai from 'chai';
 import ShortUrlController from '../../src/url/shortUrlController';
 import ShortUrlRepository from '../../src/url/shortUrlRepository';
+import ShortUrlService from '../../src/url/shortUrlService';
 import Shortener from '../../src/url/shortener';
 
 describe('Loading everthing to a real code coverage', () => {

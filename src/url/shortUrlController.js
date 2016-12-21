@@ -2,8 +2,9 @@
  * Class ShortUrlController
  */
 export default class ShortUrlController {
-  constructor(ShortUrlRepository) {
+  constructor(ShortUrlRepository, ShortUrlService) {
     this.ShortUrlRepository = ShortUrlRepository;
+    this.ShortUrlService = ShortUrlService;
   }
 
   /**
@@ -12,11 +13,11 @@ export default class ShortUrlController {
    * @param res {Object} Response Object
    */
   createShortUrl(req, res) {
-    if (!req.params.url) {
+    if (!req.body.url) {
       throw new Error('URL is not defined. You must pass a URL.');
     }
 
-    const ShortUrl = this.ShortUrlRepository.createShortUrl(req.params.url);
+    const ShortUrl = this.ShortUrlService.createShortUrl(req.body.url);
 
     this.ShortUrlRepository.persist(ShortUrl).then(response => {
       return res.json(this.ShortUrlRepository.dataTransferObject(response));
@@ -40,7 +41,7 @@ export default class ShortUrlController {
     const referer = req.get('Referer');
 
     this.ShortUrlRepository.getShortUrlById(req.params.shortUrlId, referer).then(response => {
-      return res.redirect(301, `${response.url}`);
+      return res.redirect(301, response.url);
     }).catch(err => {
       res.json(err);
     });
@@ -52,7 +53,7 @@ export default class ShortUrlController {
    * @param res {Object} Response Object
    */
   deleteShortUrl(req, res) {
-    this.ShortUrlRepository.deleteShortUrl(req.params.shortUrlId).then(() => {
+    this.ShortUrlService.deleteShortUrl(req.params.shortUrlId).then(() => {
       return res.status(204).json({
         code: 204,
         message: 'Deleted'
