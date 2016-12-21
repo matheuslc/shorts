@@ -3,14 +3,5 @@
   "baseShortUrl": "https://yoururl:port",
   "shortUrlSize": 6,
   "dictionary": "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789",
-  "database": {
-    "mongo": {
-      "host": "mongodb://ip:27017",
-      "db": "url-shortener",
-      "options": {
-        "user": "root",
-        "password": "root"  
-      }
-    }
-  }
+  "database": "mongo/shorts"
 }
