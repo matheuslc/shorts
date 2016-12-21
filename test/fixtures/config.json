@@ -1,0 +1,7 @@
+{
+  "env": "test",
+  "baseShortUrl": "https://test.com",
+  "shortUrlSize": 5,
+  "dictionary": "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789",
+  "database": "mongodb://localhost:27017"
+}

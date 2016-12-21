@@ -5,8 +5,8 @@
   "main": "bin/www",
   "scripts": {
     "start": "nodemon --exec babel-node bin/www",
-    "lint": "eslint src",
-    "test": "xo"
+    "lint": "xo",
+    "test": "nyc mocha ./test/**/*.spec.js --compilers js:babel-core/register"
   },
   "repository": {
     "url": "git@github.com:matheuslc/shorts.git",
@@ -16,7 +16,10 @@
     "esnext": true,
     "space": 2,
     "rules": {
-      "unicorn/filename-case": ["error", "camelCase"],
+      "unicorn/filename-case": [
+        "error",
+        "camelCase"
+      ],
       "new-cap": 0
     }
   },
@@ -36,11 +39,15 @@
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
+    "babel-core": "^6.21.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
+    "chai": "^3.5.0",
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^2.2.0",
+    "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
+    "nyc": "^10.0.0",
     "xo": "^0.17.1"
   }
 }
