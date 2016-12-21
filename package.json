@@ -42,7 +42,8 @@
     "mongoose": "^4.7.3",
     "morgan": "~1.7.0",
     "pm2": "^2.0.18",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

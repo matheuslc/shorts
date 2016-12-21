@@ -1,3 +1,5 @@
+import validUrl from 'valid-url';
+
 /**
  * Class ShortUrlController
  */
@@ -14,7 +16,14 @@ export default class ShortUrlController {
    */
   createShortUrl(req, res) {
     if (!req.body.url) {
-      throw new Error('URL is not defined. You must pass a URL.');
+      throw new Error(
+        'URL is not defined. You must pass a URL.' + 
+        'A valid URL should start with http(s) and ends with a .'
+      );
+    }
+
+    if (!validUrl.isWebUri(req.body.url)) {
+      throw new Error('Please send a valid URL');
     }
 
     const ShortUrl = this.ShortUrlService.createShortUrl(req.body.url);
