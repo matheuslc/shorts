@@ -14,6 +14,11 @@
     "url": "git@github.com:matheuslc/shorts.git",
     "type": "git"
   },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ]
+  },
   "xo": {
     "esnext": true,
     "space": 2,
