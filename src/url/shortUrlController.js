@@ -25,7 +25,7 @@ export default class ShortUrlController {
 
     const ShortUrl = this.ShortUrlService.createShortUrl(req.body.url);
 
-    this.ShortUrlRepository.persist(ShortUrl).then(response => {
+    return this.ShortUrlRepository.persist(ShortUrl).then(response => {
       return res.json(this.ShortUrlRepository.dataTransferObject(response));
     }).catch(err => {
       if (err.code === 11000) {
@@ -47,9 +47,13 @@ export default class ShortUrlController {
     const referer = req.get('Referer');
 
     this.ShortUrlRepository.getShortUrlById(req.params.shortUrlId, referer).then(response => {
-      return res.redirect(301, response.url);
+      res.redirect(301, response.url);
+
+      return res;
     }).catch(err => {
+      res.status(500);
       res.json(err);
+      return res.end();
     });
   }
 
@@ -59,7 +63,7 @@ export default class ShortUrlController {
    * @param res {Object} Response Object
    */
   deleteShortUrl(req, res) {
-    this.ShortUrlService.deleteShortUrl(req.params.shortUrlId).then(() => {
+    return this.ShortUrlService.deleteShortUrl(req.params.shortUrlId).then(() => {
       return res.status(204).json({
         code: 204,
         message: 'Deleted'
