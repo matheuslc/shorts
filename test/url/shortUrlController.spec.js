@@ -19,17 +19,11 @@ describe('Short URL Controller', () => {
   let Controller;
   let Repository;
   let Service;
-  let RepositoryStub;
-  let ServiceStub;
 
   before(() => {
     Repository = new ShortUrlRepository();
     Service = new ShortUrlService();
     Controller = new ShortUrlController(Repository, Service);
-
-    RepositoryStub = sinon.stub(Repository, 'getShortUrlById');      
-    ServiceStub = sinon.stub(Service, 'deleteShortUrl');
-    
   });
 
   it('Should redirect to a URL', (done) => {
@@ -47,6 +41,8 @@ describe('Short URL Controller', () => {
 
     request.get = sinon.stub().returns('https://google.com.br');
 
+    let RepositoryStub = sinon.stub(Repository, 'getShortUrlById');      
+
     RepositoryStub.resolves({
       url: 'https://medium.com.br'
     });
@@ -63,6 +59,32 @@ describe('Short URL Controller', () => {
     });
   });
 
+  it('Should catch an error if repository throws an error', () => {
+    let request = httpMocks.createRequest({
+      method: 'GET',
+      url: '/abc123',
+      params: {
+        shortUrlId: 'abc123'
+      }
+    });
+
+    let response = httpMocks.createResponse({
+      eventEmitter: events.EventEmitter
+    });
+
+    request.get = sinon.stub().returns('https://google.com.br');
+
+    let RepositoryStub = sinon.stub(Repository, 'getShortUrlById');      
+
+    RepositoryStub.resolves(new Error());
+
+    Controller.getShortUrl(request, response);
+
+    response.on('end', () => {
+      expect(response.statusCode).to.equal(500);
+    });
+  });
+
   it('Should delete a Short URL by ID', (done) => {
     let request = httpMocks.createRequest({
       method: 'DELETE',
@@ -76,6 +98,8 @@ describe('Short URL Controller', () => {
       eventEmitter: events.EventEmitter
     });
 
+    let ServiceStub = sinon.stub(Service, 'deleteShortUrl');
+
     ServiceStub.resolves({});
 
     Controller.deleteShortUrl(request, response);
@@ -88,12 +112,12 @@ describe('Short URL Controller', () => {
   }); 
 
   it('Should create a new Short URL', (done) => {
-    const expectedResponse = {
+    let expectedResponse = {
       url: 'https://medium.com',
       shortUrl: 'abc123',
       hits: {
         count: 0
-      }
+      },
     };
 
     let request = httpMocks.createRequest({
@@ -107,7 +131,7 @@ describe('Short URL Controller', () => {
       eventEmitter: events.EventEmitter
     });
 
-    ServiceStub = sinon.stub(Service, 'createShortUrl').returns(new UrlSchema({
+    let ServiceStub = sinon.stub(Service, 'createShortUrl').returns(new UrlSchema({
       url: 'https://medium.com',
       shortUrl: 'abc123',
       hits: {
@@ -115,19 +139,18 @@ describe('Short URL Controller', () => {
       }
     }));
 
-    RepositoryStub = sinon.stub(Repository, 'persist').resolves(expectedResponse);
+    let RepositoryStub = sinon.stub(Repository, 'persist').resolves(expectedResponse);
 
     Controller.createShortUrl(request, response)
-
-    RepositoryStub.restore();
-    ServiceStub.restore();
-
+    
     response.on('end', () => {
       let result = JSON.parse(response._getData());
 
       expect(result).to.be.an('object');
       expect(result).to.deep.equal(expectedResponse);
-      expect(response.statusCode).to.be.equal(200);
+
+      RepositoryStub.restore();
+      ServiceStub.restore();
 
       done();
     });
@@ -161,17 +184,79 @@ describe('Short URL Controller', () => {
     });
 
     expect(() => {
-      Controller.createShortUrl(request, res);
+      Controller.createShortUrl(request, response);
     }).to.throw(Error);
   })
+
+  it('Should catch an error if we have an error in persist repository method', () => {
+    let request = httpMocks.createRequest({
+      method: 'POST',
+      body: {
+        url: 'https://medium.com'
+      }
+    });
+
+    let response = httpMocks.createResponse({
+      eventEmitter: events.EventEmitter
+    });
+
+    let ServiceStub = sinon.stub(Service, 'createShortUrl').returns(new UrlSchema({
+      url: 'https://medium.com',
+      shortUrl: 'abc123',
+      hits: {
+        count: 0
+      }
+    }));
+
+    let RepositoryStub = sinon.stub(Repository, 'persist').rejects({});
+
+    Controller.createShortUrl(request, response);
+    RepositoryStub.restore();
+    ServiceStub.restore();
+
+    response.on('end', () => {
+      expect(response.statusCode).to.equal(500);
+    })
+  });
+
+  it('Should retry createShortUrl if we have an error 11000 in persist', (done) => {
+    let spy = sinon.spy(Controller, 'createShortUrl');
+
+    let request = httpMocks.createRequest({
+      method: 'POST',
+      body: {
+        url: 'https://medium.com'
+      }
+    });
+
+    let response = httpMocks.createResponse({
+      eventEmitter: events.EventEmitter
+    });
+
+    let ServiceStub = sinon.stub(Service, 'createShortUrl').returns(new UrlSchema({
+      url: 'https://medium.com',
+      shortUrl: 'abc123',
+      hits: {
+        count: 0
+      }
+    }));
+
+    let RepositoryStub = sinon.stub(Repository, 'persist');
+
+    RepositoryStub.onCall(0).rejects({
+      code: 11000
+    });
+
+    RepositoryStub.onCall(1).resolves();
+
+    Controller.createShortUrl(request, response);
+
+    response.on('end', () => {
+      expect(spy).to.have.been.calledTwice;
+      
+      ServiceStub.restore();
+      RepositoryStub.restore();
+      done();
+    })
+  });
 });
-
-
-
-
-
-
-
-
-
-

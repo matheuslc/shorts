@@ -26,6 +26,8 @@ export default class ShortUrlController {
     const ShortUrl = this.ShortUrlService.createShortUrl(req.body.url);
 
     this.ShortUrlRepository.persist(ShortUrl).then(response => {
+      res.status(204);
+
       return res.json(this.ShortUrlRepository.dataTransferObject(response));
     }).catch(err => {
       if (err.code === 11000) {
@@ -34,6 +36,7 @@ export default class ShortUrlController {
         return false;
       }
 
+      res.status(500);
       return res.json(err);
     });
   }
