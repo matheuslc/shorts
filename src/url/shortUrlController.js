@@ -16,10 +16,7 @@ export default class ShortUrlController {
    */
   createShortUrl(req, res) {
     if (!req.body.url) {
-      throw new Error(
-        'URL is not defined. You must pass a URL.' + 
-        'A valid URL should start with http(s) and ends with a .'
-      );
+      throw new Error('URL is not defined. You must pass a URL. A valid URL should start with http(s) and ends with a .');
     }
 
     if (!validUrl.isWebUri(req.body.url)) {
@@ -50,9 +47,12 @@ export default class ShortUrlController {
     const referer = req.get('Referer');
 
     this.ShortUrlRepository.getShortUrlById(req.params.shortUrlId, referer).then(response => {
-      return res.redirect(301, response.url);
+      res.redirect(301, response.url);
+
+      return res;
     }).catch(err => {
-      res.json(err);
+      res.status(500);
+      return res.json(err);
     });
   }
 
@@ -62,7 +62,7 @@ export default class ShortUrlController {
    * @param res {Object} Response Object
    */
   deleteShortUrl(req, res) {
-    this.ShortUrlService.deleteShortUrl(req.params.shortUrlId).then(() => {
+    return this.ShortUrlService.deleteShortUrl(req.params.shortUrlId).then(() => {
       return res.status(204).json({
         code: 204,
         message: 'Deleted'
