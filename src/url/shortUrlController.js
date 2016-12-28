@@ -26,7 +26,7 @@ export default class ShortUrlController {
     const ShortUrl = this.ShortUrlService.createShortUrl(req.body.url);
 
     this.ShortUrlRepository.persist(ShortUrl).then(response => {
-      res.status(204);
+      res.status(201);
 
       return res.json(this.ShortUrlRepository.dataTransferObject(response));
     }).catch(err => {
