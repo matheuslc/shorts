@@ -14,3 +14,7 @@ script:
   - "npm run-script lint"
   - "npm test"
   - "npm run-script cover"
+
+addons:
+    code_climate:
+        repo_token: 007ee58606a6801869af6d89c6852e49c8786b7a7c303a2b66c8a95d3d79f91c
