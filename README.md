@@ -15,10 +15,16 @@ OH! How I run this!? :0
 
 * Rename this file to enviroment.json
 
-* Run the container
+* Build the container
 
 ```bash
-docker run -p 3000:3000 --name shorts -d matheuslc/shorts
+docker build -t "shorts" .
+```
+
+* Run!
+
+```bash
+docker run shorts
 ```
 
 If you aren't using docker, no problem!
