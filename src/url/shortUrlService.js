@@ -1,19 +1,19 @@
-import config from '../../resource/config/enviroment';
 import UrlSchema from '../schemas/urlSchema';
-import Shortener from './shortener';
 
 export default class ShortUrlService {
+  constructor(Shortener) {
+    this.Shortener = Shortener;
+  }
+
   /**
    * @name createShortUrl
    * @param url {String}
    * @return {Promise} Created new Short URL and return a ShortURL schema
    */
   createShortUrl(url) {
-    const randomUrl = new Shortener(config.dictionary, config.shortUrlSize).getRandomUrl();
-
     return new UrlSchema({
       url,
-      shortUrl: randomUrl,
+      shortUrl: this.Shortener.getRandomUrl(),
       hits: {
         count: 0
       }
