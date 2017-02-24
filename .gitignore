@@ -41,3 +41,6 @@ shared
 
 # Config file
 resource/config/enviroment.json
+
+# IDE
+.idea
