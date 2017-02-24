@@ -8,10 +8,7 @@ export default class Shortener {
    * @name getRandomUrl
    * @returns {string} Random digits
    */
-  getRandomUrl() {
-    let i = 0;
-    let shortUrl = '';
-
+  getRandomUrl(i = 0, shortUrl = '') {
     for (i; i < this.shortUrlSize; i++) {
       shortUrl += this.dictionary[this.getRandomPosition()];
     }
