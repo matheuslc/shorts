@@ -4,7 +4,8 @@ export default class ShortUrlRepository {
   /**
    * @name getShortUrlById
    * @param shortUrlId {int}
-   * @return {Promise}
+   * @param referer {String}
+   * @returns {Promise}
    */
   getShortUrlById(shortUrlId, referer) {
     return UrlSchema.findOneAndUpdate({
@@ -19,7 +20,7 @@ export default class ShortUrlRepository {
   /**
    * @name persist
    * @param ShortUrl {Object} Short URL schema
-   * @return {Promise} Persist a Short URL and returns a promise
+   * @returns {Promise} Persist a Short URL and returns a promise
    */
   persist(ShortUrl) {
     return ShortUrl.save();
@@ -27,7 +28,7 @@ export default class ShortUrlRepository {
 
   /**
    * @name dataTransferObject
-   * @return {Object} Format response to be exposed
+   * @returns {Object} Format response to be exposed
    */
   dataTransferObject(data) {
     return {

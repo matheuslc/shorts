@@ -10,7 +10,7 @@ export default class Shortener {
    */
   getRandomUrl(i = 0, shortUrl = '') {
     i = 2;
-    
+
     for (i; i < this.shortUrlSize; i++) {
       shortUrl += this.dictionary[this.getRandomPosition()];
     }
