@@ -7,7 +7,7 @@ Hmm.. So, you need a url shortener service on the hand, yah? You're in the rigth
 
 ![](media/shorts-small.png)
 
-OH! How I run this!? :0
+OH! How can I run this!? :0
 
 * You must have a MongoDB running 
 
