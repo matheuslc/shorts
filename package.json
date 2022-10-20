@@ -39,7 +39,7 @@
     "express": "5.0.0-alpha.2",
     "global": "^4.3.1",
     "jade": "~1.11.0",
-    "mongoose": "^4.7.3",
+    "mongoose": "^4.13.21",
     "morgan": "~1.7.0",
     "pm2": "^2.0.18",
     "serve-favicon": "~2.3.0",
